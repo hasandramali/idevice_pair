@@ -34,7 +34,8 @@ jobs:
       matrix:
         include:
           - arch: x86_64
-            runner: ubuntu-latest
+            # Ubuntu 22.04, GLIBC 2.35 sürümünü içerir
+            runner: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
             toolfile: appimagetool-x86_64.AppImage
           - arch: aarch64
@@ -56,12 +57,13 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
+          # libfuse2 yerine libfuse3 kullanıldı
           sudo apt-get install -y \
             libglib2.0-dev \
             libatk1.0-dev \
             libgtk-3-dev \
             pkg-config \
-            libfuse2 \
+            libfuse3 \
             appstream \
             usbmuxd
 
@@ -80,7 +82,8 @@ jobs:
           mkdir -p AppDir/usr/bin AppDir/usr/lib AppDir/usr/share/icons/hicolor/256x256/apps AppDir/etc/udev/rules.d
           cp target/${{ matrix.target }}/release/${{ env.BINARY_NAME }} AppDir/usr/bin/
           cp $(which usbmuxd) AppDir/usr/bin/
-          sudo cp /lib/udev/rules.d/39-usbmuxd.rules AppDir/etc/udev/rules.d/
+          # udev kural dosyasının yolu ubuntu 22.04'e göre güncellendi
+          sudo cp /usr/lib/udev/rules.d/39-usbmuxd.rules AppDir/etc/udev/rules.d/
           ICON_NAME=${ICON_PNG##*/}; BASENAME=${ICON_NAME%.*}
           cp ${{ env.ICON_PNG }} AppDir/${BASENAME}.png
           cp ${{ env.ICON_PNG }} AppDir/usr/share/icons/hicolor/256x256/apps/${BASENAME}.png
