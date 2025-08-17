@@ -57,13 +57,13 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          # libfuse2 yerine libfuse3 kullanıldı
           sudo apt-get install -y \
             libglib2.0-dev \
             libatk1.0-dev \
             libgtk-3-dev \
             pkg-config \
-            libfuse3 \
+            # libfuse3 yerine libfuse3-dev kullanıldı
+            libfuse3-dev \
             appstream \
             usbmuxd
 
