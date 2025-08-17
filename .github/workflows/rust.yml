@@ -107,4 +107,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: idv-linux-x86_64.AppImage
-          path: iDevicePair-202508172057-linux-x86_64.AppImage
+          path: iDevicePair-*-linux-x86_64.AppImage
