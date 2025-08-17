@@ -51,10 +51,16 @@ jobs:
             libgtk-3-dev \
             pkg-config \
             libfuse3-dev \
-            # AppImage aracının ihtiyacı olan eski libfuse2 kütüphanesi eklendi
-            libfuse2 \
             appstream \
             usbmuxd
+      
+      - name: Install libfuse2 (for AppImage compatibility)
+        run: |
+          # Bu adım, Ubuntu 22.04'te AppImage için gerekli olan libfuse2'yi
+          # doğrudan Debian deposundan indirip kurar.
+          wget http://ftp.debian.org/debian/pool/main/f/fuse/libfuse2_2.9.9-5_amd64.deb
+          sudo dpkg -i libfuse2_2.9.9-5_amd64.deb
+          rm libfuse2_2.9.9-5_amd64.deb
 
       # Build and package
       - name: Build binary
@@ -88,8 +94,6 @@ jobs:
 
       - name: Build AppImage
         run: |
-          # VERSION değişkeni boş olduğu için "iDevicePair--linux..." şeklinde hata veriyor.
-          # Bu hatayı düzeltmek için VERSION değişkeninin kontrolünü ekledim.
           if [ -z "${{ env.VERSION }}" ]; then
             FILENAME="${{ env.APP_NAME }}-$(date +%Y%m%d%H%M)-linux-x86_64.AppImage"
           else
