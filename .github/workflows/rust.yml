@@ -106,5 +106,5 @@ jobs:
       - name: Upload AppImage
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.APP_NAME }}-${{ env.VERSION }}-linux-x86_64.AppImage
-          path: ${{ env.APP_NAME }}-${{ env.VERSION }}-linux-x86_64.AppImage
+          name: idv-linux-x86_64.AppImage
+          path: *.AppImage
